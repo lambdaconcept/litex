@@ -10,7 +10,7 @@ export MOD_DIR = $(SRC_DIR)/modules
 
 SRCS_SIM_ABSPATH = $(wildcard $(SRC_DIR)/*.c)
 SRCS_SIM = $(notdir $(SRCS_SIM_ABSPATH))
-SRCS_SIM_CPP = dut_init.cpp $(SRC_DIR)/lambdaveril.cpp
+SRCS_SIM_CPP = dut_init.cpp $(SRC_DIR)/veril.cpp
 OBJS_SIM = $(SRCS_SIM:.c=.o)
 
 all: modules sim

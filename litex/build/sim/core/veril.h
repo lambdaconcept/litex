@@ -1,5 +1,5 @@
-#ifndef __LAMBDAVERIL_H_
-#define __LAMBDAVERIL_H_
+#ifndef __VERIL_H_
+#define __VERIL_H_
 
 #ifdef __cplusplus
 extern "C" void lambdasim_eval(void *vdut);

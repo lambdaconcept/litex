@@ -13,7 +13,7 @@
 #include "error.h"
 #include "modules.h"
 #include "pads.h"
-#include "lambdaveril.h"
+#include "veril.h"
 
 #include <event2/listener.h>
 #include <event2/util.h>
