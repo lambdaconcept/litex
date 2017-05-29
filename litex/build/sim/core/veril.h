@@ -1,3 +1,5 @@
+/* Copyright (C) 2017 LambdaConcept */
+
 #ifndef __VERIL_H_
 #define __VERIL_H_
 

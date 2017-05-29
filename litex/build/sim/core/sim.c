@@ -1,3 +1,5 @@
+/* Copyright (C) 2017 LambdaConcept */
+
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>

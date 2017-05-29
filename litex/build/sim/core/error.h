@@ -1,3 +1,5 @@
+/* Copyright (C) 2017 LambdaConcept */
+
 #ifndef __ERROR_H_
 #define __ERROR_H_
 

@@ -1,3 +1,5 @@
+/* Copyright (C) 2017 LambdaConcept */
+
 #ifndef __PADS_H_
 #define __PADS_H_
 

@@ -1,4 +1,5 @@
 # This file is Copyright (c) 2015-2016 Florent Kermarrec <florent@enjoy-digital.fr>
+#                            2017 Pierre-Olivier Vauboin <po@lambdaconcept.com>
 # License: BSD
 
 import os

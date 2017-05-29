@@ -1,3 +1,5 @@
+/* Copyright (C) 2017 LambdaConcept */
+
 #ifndef __MODULE_H_
 #define __MODULE_H_
 
