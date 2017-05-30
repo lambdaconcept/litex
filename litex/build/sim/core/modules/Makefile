@@ -1,37 +1,14 @@
-CC = gcc
-CFLAGS = -Wall -O3 -ggdb -fPIC -Werror
-LDFLAGS = -levent -shared -fPIC
+MODULES = ethernet serial2console serial2tcp spartan3 sysclk
+SHROBJS = $(MODULES:=.so)
 
-MOD_DIR ?= .
-OBJ_DIR ?= .
+.PHONY: $(MODULES)
+all: $(MODULES)
 
-$(info $(MOD_DIR))
-
-SRCS_ABSPATH = $(wildcard $(MOD_DIR)/*.c)
-SRCS = $(notdir $(SRCS_ABSPATH))
-OBJS = $(SRCS:.c=.o)
-SOS = $(SRCS:.c=.so)
-
-all: $(SOS)
-
-$(OBJS): %.o: $(MOD_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) -I$(MOD_DIR)/.. -o $(OBJ_DIR)/$@ $<
-
-$(SOS): %.so: %.o
-	$(CC) $(LDFLAGS) -Wl,-soname,$@ -o $(OBJ_DIR)/$@ $(OBJ_DIR)/$<
-
-ethernet.so: ethernet.o tapcfg
-	$(CC) $(LDFLAGS) -Wl,-soname,$@ -o $(OBJ_DIR)/$@ $(OBJ_DIR)/$< \
-		$(OBJ_DIR)/taplog.o $(OBJ_DIR)/tapcfg.o
-
-tapcfg:
-	$(CC) $(CFLAGS) -c -o $(OBJ_DIR)/taplog.o $(MOD_DIR)/tapcfg/taplog.c
-	$(CC) $(CFLAGS) -c -o $(OBJ_DIR)/tapcfg.o $(MOD_DIR)/tapcfg/tapcfg.c
-
-spartan3.so: spartan3.o
-	$(CC) $(LDFLAGS) -Wl,-soname,$@ -o $(OBJ_DIR)/$@ $(OBJ_DIR)/$< -lSDL2 -lSDL2_image
+$(MODULES): %:
+	$(MAKE) -C $@
 
 .PHONY: clean
 clean:
-	rm -f *.o *.so
+	for module in $(MODULES); do \
+		$(MAKE) -C $$module $@; \
+	done
