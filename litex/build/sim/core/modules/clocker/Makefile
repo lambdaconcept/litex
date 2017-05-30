@@ -1,5 +1,5 @@
 include ../variables.mak
 
-all: $(OBJ_DIR)/sysclk.so
+all: $(OBJ_DIR)/clocker.so
 
 include ../rules.mak

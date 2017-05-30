@@ -35,13 +35,13 @@ out:
   return ret;
 }
 
-static int sys_clk_start()
+static int clocker_start()
 {
   printf("Loaded !\n");
   return RC_OK;
 }
 
-static int sys_clk_new(void **sess, char *args)
+static int clocker_new(void **sess, char *args)
 {
   int ret=RC_OK;
 
@@ -66,7 +66,7 @@ out:
   
 }
 
-static int sys_clk_add_pads(void *sess, struct pad_list_s *plist)
+static int clocker_add_pads(void *sess, struct pad_list_s *plist)
 {
   int ret=RC_OK;
   struct session_s *s=(struct session_s*)sess;
@@ -89,7 +89,7 @@ out:
   
 }
 
-static int sys_clk_tick(void *sess)
+static int clocker_tick(void *sess)
 {
   struct session_s *s=(struct session_s*)sess;
   *s->sys_clk = ~(*s->sys_clk);
@@ -97,12 +97,12 @@ static int sys_clk_tick(void *sess)
 }
 
 static struct ext_module_s ext_mod = {
-  "sys_clk",
-  sys_clk_start,
-  sys_clk_new,
-  sys_clk_add_pads,
+  "clocker",
+  clocker_start,
+  clocker_new,
+  clocker_add_pads,
   NULL,
-  sys_clk_tick
+  clocker_tick
 };
 
 int lambdasim_ext_module_init(int (*register_module)(struct ext_module_s *))
