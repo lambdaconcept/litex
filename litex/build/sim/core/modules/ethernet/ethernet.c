@@ -7,7 +7,7 @@
 #include <event2/util.h>
 #include <event2/event.h>
 #include <json-c/json.h>
-#include "tapcfg/tapcfg.h"
+#include "tapcfg.h"
 #include "modules.h"
 
 struct eth_packet_s {
