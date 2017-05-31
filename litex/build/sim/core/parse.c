@@ -27,7 +27,7 @@ static int file_to_js(char *filename, json_object **obj)
   in = fopen(filename, "r");
   if(!in)
   {
-    eprintf("Can't open file\n");
+    eprintf("Can't open configuration file: %s\n", filename);
     ret= RC_ERROR;
     goto out;
   }

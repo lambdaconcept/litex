@@ -96,6 +96,11 @@ INC_DIR = {}
     tools.write_to_file("variables.mak", content)
 
 
+def _generate_sim_config(config):
+    content = config.get_json()
+    tools.write_to_file("sim_config.js", content)
+
+
 def _build_sim(platform, build_name, verbose):
     makefile = os.path.join(core_directory, 'Makefile')
     build_script_contents = """\
@@ -132,7 +137,8 @@ obj_dir/Vdut
 
 class SimVerilatorToolchain:
     def build(self, platform, fragment, build_dir="build", build_name="top",
-            toolchain_path=None, serial="console", run=True, verbose=True):
+            toolchain_path=None, serial="console", run=True, verbose=True,
+            sim_config=None):
         os.makedirs(build_dir, exist_ok=True)
         os.chdir(build_dir)
 
@@ -153,6 +159,8 @@ class SimVerilatorToolchain:
         _generate_sim_h(platform)
         _generate_sim_cpp(platform)
         _generate_sim_variables(include_paths)
+        if sim_config:
+            _generate_sim_config(sim_config)
         _build_sim(platform, build_name, verbose)
 
         if run:

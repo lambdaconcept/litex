@@ -63,14 +63,10 @@ static int lambdasim_initialize_all(void **dut, void *base)
 
   
   /* Load configuration */
-  ret = lambdasim_file_to_module_list("../lambdasim.js", &ml);
+  ret = lambdasim_file_to_module_list("sim_config.js", &ml);
   if(RC_OK != ret)
   {
-    ret = lambdasim_file_to_module_list("../../lambdasim.js", &ml);
-    if(RC_OK != ret)
-    {
-      goto out;
-    }
+    goto out;
   }
   /* Init generated */
   lambdasim_init(&vdut);
