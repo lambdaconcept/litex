@@ -26,6 +26,14 @@ struct session_s {
     SDL_Rect* rect_segment;
 };
 
+#define SDL_RWFROMOBJ(NAME) SDL_RWFromMem(&_binary_img_ ## NAME ## _png_start, &_binary_img_ ## NAME ## _png_end-&_binary_img_ ## NAME ## _png_start)
+#define SDL_DEFFROMOBJ(NAME) extern char _binary_img_ ## NAME ## _png_start; extern char _binary_img_ ## NAME ## _png_end;
+
+SDL_DEFFROMOBJ(board)
+SDL_DEFFROMOBJ(digits)
+SDL_DEFFROMOBJ(sw0)
+SDL_DEFFROMOBJ(sw1)
+
 static SDL_Rect rect_sw[8] = {
     {326, 242, 20, 37},
     {305, 242, 20, 37},
@@ -129,35 +137,35 @@ static int spartan3_new(void **sess, char *args)
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(s->renderer, 400, 284);
 
-    s->img_board  = IMG_LoadTexture(s->renderer, "spartan3/spartan3_board.png");
+    s->img_board  = IMG_LoadTextureTyped_RW(s->renderer, SDL_RWFROMOBJ(board), 1, "png");
     if(!s->img_board)
     {
         ret = RC_ERROR;
-        eprintf("Can't load image: spartan3/spartan3_board.png\n");
+        eprintf("Can't load image: board.png\n");
         goto out;
     }
 
-    s->img_digits = IMG_LoadTexture(s->renderer, "spartan3/spartan3_digits.png");
+    s->img_digits = IMG_LoadTextureTyped_RW(s->renderer, SDL_RWFROMOBJ(digits), 1, "png");
     if(!s->img_digits)
     {
         ret = RC_ERROR;
-        eprintf("Can't load image: spartan3/spartan3_digits.png\n");
+        eprintf("Can't load image: digits.png\n");
         goto out;
     }
 
-    s->img_sw0    = IMG_LoadTexture(s->renderer, "spartan3/spartan3_sw0.png");
+    s->img_sw0    = IMG_LoadTextureTyped_RW(s->renderer, SDL_RWFROMOBJ(sw0), 1, "png");
     if(!s->img_sw0)
     {
         ret = RC_ERROR;
-        eprintf("Can't load image: spartan3/spartan3_sw0.png\n");
+        eprintf("Can't load image: sw0.png\n");
         goto out;
     }
 
-    s->img_sw1    = IMG_LoadTexture(s->renderer, "spartan3/spartan3_sw1.png");
+    s->img_sw1    = IMG_LoadTextureTyped_RW(s->renderer, SDL_RWFROMOBJ(sw1), 1, "png");
     if(!s->img_sw1)
     {
         ret = RC_ERROR;
-        eprintf("Can't load image: spartan3/spartan3_sw1.png\n");
+        eprintf("Can't load image: sw1.png\n");
         goto out;
     }
 
