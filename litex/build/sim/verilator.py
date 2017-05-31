@@ -84,14 +84,19 @@ extern "C" void lambdasim_init(void **out)
     tools.write_to_file("dut_init.cpp", content)
 
 
-def _generate_sim_variables(platform):
+def _generate_sim_variables(include_paths):
+    include = ""
+    for path in include_paths:
+        include += "-I"+path+" "
+
     content = """\
 SRC_DIR = {}
-""".format(core_directory)
+INC_DIR = {}
+""".format(core_directory, include)
     tools.write_to_file("variables.mak", content)
 
 
-def _build_sim(platform, vns, build_name, include_paths, serial, verbose):
+def _build_sim(platform, build_name, verbose):
     makefile = os.path.join(core_directory, 'Makefile')
     build_script_contents = """\
 rm -rf obj_dir/
@@ -147,8 +152,8 @@ class SimVerilatorToolchain:
         include_paths += platform.verilog_include_paths
         _generate_sim_h(platform)
         _generate_sim_cpp(platform)
-        _generate_sim_variables(platform)
-        _build_sim(platform, v_output.ns, build_name, include_paths, serial, verbose)
+        _generate_sim_variables(include_paths)
+        _build_sim(platform, build_name, verbose)
 
         if run:
             _run_sim(build_name)

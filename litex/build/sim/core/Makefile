@@ -5,6 +5,7 @@ CFLAGS = -Wall -O3 -ggdb
 LDFLAGS = -lpthread -ljson-c -lm -lstdc++ -ldl -levent
 
 SRC_DIR ?= .
+INC_DIR ?= .
 MOD_DIR = $(SRC_DIR)/modules
 export OBJ_DIR = $(abspath obj_dir)
 
@@ -27,7 +28,7 @@ sim: mkdir $(OBJS_SIM)
 		$(SRCS_SIM_CPP) $(OBJS_SIM) \
 		-CFLAGS "$(CFLAGS) -I$(SRC_DIR)" \
 		-LDFLAGS "$(LDFLAGS)" \
-		-trace
+		-trace $(INC_DIR)
 	make -j -C $(OBJ_DIR) -f Vdut.mk Vdut
 
 .PHONY: modules
