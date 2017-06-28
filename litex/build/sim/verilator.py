@@ -126,7 +126,7 @@ mkdir -p modules && cp obj_dir/*.so modules
 
 def _run_sim(build_name):
     run_script_contents = """\
-obj_dir/Vdut
+sudo obj_dir/Vdut
 """
     run_script_file = "run_" + build_name + ".sh"
     tools.write_to_file(run_script_file, run_script_contents, force_unix=True)

@@ -1,4 +1,4 @@
-MODULES = ethernet serial2console serial2tcp spartan3 clocker
+MODULES = ethernet serial2console serial2tcp clocker
 SHROBJS = $(MODULES:=.so)
 
 .PHONY: $(MODULES)
