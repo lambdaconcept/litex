@@ -177,21 +177,36 @@ def get_csr_csv(csr_regions=None, constants=None, memory_regions=None):
     return r
 
 def get_csr_python(csr_regions=None, constants=None, memory_regions=None):
-    r = ""
-
+    r = "#!/usr/bin/env python3\n# __GENERATED_CSR_PY\n"
     if csr_regions is not None:
         for name, origin, busword, obj in csr_regions:
-            r += "ADDR_{} = 0x{:08x}\n".format(name.upper(), origin)
-
-        for name, origin, busword, obj in csr_regions:
-            if not isinstance(obj, Memory):
+            if isinstance(obj, Memory):
+                r += "CSR_{}_BASE = 0x{:08x}\n".format(name.upper(), origin)
+            else:
+                r += "\n# {}\n".format(name)
+                r += "CSR_{}_BASE = 0x{:08x}\n".format(name.upper(), origin)
                 for csr in obj:
                     nr = (csr.size + busword - 1)//busword
-                    r += "ADDR_{}_{} = 0x{:08x}\n".format(name.upper(), csr.name.upper(), origin)
+                    r += "CSR_{}_{}_ADDR = 0x{:08x}\n".format(name.upper(), csr.name.upper(), origin)
+                    r += "CSR_{}_{}_SIZE = {}\n".format(name.upper(), csr.name.upper(), nr)
                     origin += 4*nr
 
+    if constants is not None:
+        r += "\n# constants\n"
+        for name, value in constants:
+            if value is None:
+                r += "{} = None\n".format(name)
+                continue
+            if isinstance(value, str):
+                value = "\"" + value + "\""
+            else:
+                value = str(value)
+            r += "{} = {}\n".format(name, value)
+
     if memory_regions is not None:
+        r += "\n# memory\n"
         for name, origin, length in memory_regions:
-            r += "ADDR_{} = 0x{:08x}\n".format(name.upper(), origin)
+            r += "{}_BASE = 0x{:08x}\n".format(name.upper(), origin)
+            r += "{}_SIZE = 0x{:08x}\n".format(name.upper(), length)
 
     return r
